@@ -5,6 +5,8 @@
 curl -sSL https://raw.githubusercontent.com/mstfydmr/af/master/install.sh | bash
 ```
 
+# Usage (CLI)
+
 ## Overview
 ```bash
 af
