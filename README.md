@@ -9,11 +9,13 @@ curl -sSL https://raw.githubusercontent.com/mstfydmr/af/master/install.sh | bash
 
 ## Overview
 ```bash
+# Overview
 af
 ```
 
 ## Open MRs
 ```bash
+# List all MRs from current branch to any branch.
 af mr
 ```
 
