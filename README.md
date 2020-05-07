@@ -1,4 +1,4 @@
-# AF
+# AF CLI
   
 ## Install & Upgrade
 ```bash
