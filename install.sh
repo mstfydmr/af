@@ -1,5 +1,5 @@
 #!/bin/bash
 
-[ -f /usr/local/bin/cc ] && sudo rm /usr/local/bin/cc;
-sudo curl -sSL https://raw.githubusercontent.com/mstfydmr/cc/master/cc.py -o /usr/local/bin/cc && \
-sudo chmod a+x /usr/local/bin/cc
+[ -f /usr/local/bin/af ] && sudo rm /usr/local/bin/af;
+sudo curl -sSL https://raw.githubusercontent.com/mstfydmr/af/master/af.py -o /usr/local/bin/af && \
+sudo chmod a+x /usr/local/bin/af
