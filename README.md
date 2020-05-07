@@ -20,5 +20,8 @@ af mr
 ## Create New MR
 ```bash
 af mr {target-branch}
+af mr master # Create a MR to `master`
+af mr staging # Create a MR to `staging`
+...
 ```
 
