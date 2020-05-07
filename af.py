@@ -4,7 +4,7 @@ import os
 import sys
 import gitlab
 import subprocess
-from pprint import pprint
+from slugify import slugify
 
 os.system("clear")
 
@@ -159,8 +159,15 @@ def create_task():
     print(color("darkgray", "---------------------------------------------------"))
     print()
 
-    id     = input( "{}{}".format( color("orange", "ID"), color("darkgray", "     : ") ) )
-    title  = input( "{}{}".format( color("blue", "Title"), color("darkgray", "  : ") ) )
+    id    = False
+    title = False
+
+    while not id:
+        id = input( "{}{}".format( color("orange", "ID"), color("darkgray", "     : ") ) )
+    
+    while not title:
+        title = input( "{}{}".format( color("blue", "Title"), color("darkgray", "  : ") ) )
+
     user   = input( "{}{}".format( color("green", "User"), color("darkgray", "   : (mustafa) ") ) )
     source = input( "{}{}".format( color("cyan", "Source"), color("darkgray", " : (origin/master) ") ) )
 
@@ -173,12 +180,15 @@ def create_task():
     if source.startswith("origin/"):
         source = source[7:]
 
+    title = slugify(title)
+    source_slug = slugify(source)
+
     new_branch = "{task}/{id}/{title}/{user}/{source}".format(
         task   = "task",
         id     = id,
         title  = title,
         user   = user,
-        source = source,
+        source = source_slug,
         )
 
     # Check Status
