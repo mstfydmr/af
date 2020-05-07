@@ -156,6 +156,7 @@ def create_task():
         user   = color('darkgray', "{}{}{}".format( color("darkgray", "{"), color("green", "user"), color("darkgray", "}") )),
         source = color('darkgray', "{}{}{}".format( color("darkgray", "{"), color("cyan", "source"), color("darkgray", "}") )),
         ))
+
     print(color("darkgray", "---------------------------------------------------"))
     print()
 
@@ -170,6 +171,7 @@ def create_task():
 
     user   = input( "{}{}".format( color("green", "User"), color("darkgray", "   : (mustafa) ") ) )
     source = input( "{}{}".format( color("cyan", "Source"), color("darkgray", " : (origin/master) ") ) )
+    print()
 
     if not user:
         user = "mustafa"
@@ -178,17 +180,17 @@ def create_task():
         source = "origin/master"
 
     if source.startswith("origin/"):
-        source = source[7:]
+        _source = source[7:]
 
     title = slugify(title)
-    source_slug = slugify(source)
+    source_slug = slugify(_source)
 
     new_branch = "{task}/{id}/{title}/{user}/{source}".format(
         task   = "task",
         id     = id,
-        title  = title,
+        title  = slugify(title),
         user   = user,
-        source = source_slug,
+        source = slugify(source_slug),
         )
 
     # Check Status
@@ -201,7 +203,7 @@ def create_task():
 
     else:
         # Create Branch
-        create_branch = exec(["git checkout -b '{}' {}".format(new_branch, source)])
+        create_branch = exec(["git checkout -b '{}' '{}'".format(new_branch, source)])
 
         dyline = "-".join( [ "" for i in range(0, len(new_branch) + 20) ] )
         print()
