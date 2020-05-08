@@ -2,9 +2,11 @@
   
 ## Install & Upgrade
 ```bash
-curl -sSL https://raw.githubusercontent.com/mstfydmr/af/master/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/mstfydmr/af/master/install.sh | bash; af
 ```
-  
+![Install 1](https://github.com/mstfydmr/af/raw/master/ss/i1.png)
+![Install 2](https://github.com/mstfydmr/af/raw/master/ss/i1.png)
+
 # Usage Commands
   
 ## Overview
