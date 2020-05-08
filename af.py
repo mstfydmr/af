@@ -3,7 +3,9 @@
 import os
 import sys
 import gitlab
+import json
 import subprocess
+from pathlib import Path
 from slugify import slugify
 
 os.system("clear")
@@ -11,8 +13,9 @@ os.system("clear")
 # Args
 args = sys.argv[1:]
 
-# Logs
-LOGS = []
+# Config
+CONFIG_FILE = "{}/.airfleet-cli".format(str(Path.home()))
+CONFIG      = {}
 
 # Line
 LINE = "------------------------------"
@@ -46,8 +49,50 @@ def exec(cmd):
         return None
 
 
+# Check Config
+if not os.path.isfile(CONFIG_FILE):
+    print()
+    print(color("cyan", "INITIAL SETUP"))
+    print(color("darkgray", LINE))
+    print("{} {}".format(color("darkgray", "1."), "Go to {}".format(color("white", "https://gitlab.com/profile/personal_access_tokens"))))
+    print("{} {}".format(color("darkgray", "2."), "Enter a name for your token."))
+    print("{} {}".format(color("darkgray", "3."), "Check `{}` from scopes.".format(color("white", 'api'))))
+    print("{} {}".format(color("darkgray", "4."), "Click `{}` button.".format(color("white", 'Create personal access token'))))
+    print("{} {}".format(color("darkgray", "4."), "Copy your access token."))
+    print(color("darkgray", LINE))
+    print()
+    config_token = input( "{}{}".format( color("green", "Gitlab Access Token"), color("darkgray", " : ") ) )
+
+    os.system("clear")
+    print()
+    print(color("cyan", "INITIAL SETUP"))
+    print(color("darkgray", LINE))
+    print("{} {}".format(color("darkgray", "-"), "Please enter your username/nickname."))
+    print("{} {}".format(color("darkgray", "-"), "This is for the branch names for each task."))
+    print(color("darkgray", LINE))
+    print("{} {}".format(color("darkgray", "-"), "{} mustafa-aydemir".format( color( "cyan", "Example{}".format( color("darkgray", ":") ) ) ) ) )
+    print(color("darkgray", LINE))
+    print()
+    config_username = input( "{}{}".format( color("green", "Username"), color("darkgray", " : ") ) )
+    config_username = slugify(config_username)
+
+    CONFIG = {
+        "token"    : config_token,
+        "username" : config_username,
+    }
+
+    json_config = json.dumps(CONFIG)
+    with open(CONFIG_FILE, 'w') as out:
+        out.write(json_config + "\n")
+    os.system("clear")
+
+else:
+    json_config = open(CONFIG_FILE, 'r').read().strip()
+    CONFIG = json.loads(json_config)
+
+
 # Gitlab
-gl = gitlab.Gitlab('https://gitlab.com', private_token='iYPaj7R2yV61Z8m7ZQBx')
+gl = gitlab.Gitlab('https://gitlab.com', private_token = CONFIG['token'])
 gl.auth()
 
 # Gitlab Info
@@ -169,16 +214,17 @@ def create_task():
     while not title:
         title = input( "{}{}".format( color("blue", "Title"), color("darkgray", "  : ") ) )
 
-    user   = input( "{}{}".format( color("green", "User"), color("darkgray", "   : (mustafa) ") ) )
+    user   = input( "{}{}".format( color("green", "User"), color("darkgray", "   : ({}) ".format(CONFIG['username'])) ) )
     source = input( "{}{}".format( color("cyan", "Source"), color("darkgray", " : (origin/master) ") ) )
     print()
 
     if not user:
-        user = "mustafa"
+        user = CONFIG['username']
 
     if not source:
         source = "origin/master"
 
+    _source = source
     if source.startswith("origin/"):
         _source = source[7:]
 
